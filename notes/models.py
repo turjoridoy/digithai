@@ -1,11 +1,16 @@
+from django.conf import settings
 from django.db import models
-# Create your models here.
 from django.utils import timezone
 
 
 class Note(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=64, null=True, blank=True)
+    content = models.CharField(max_length=255, null=True, blank=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
