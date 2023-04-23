@@ -26,7 +26,11 @@ class NoteViewSet(ModelViewSet):
 
 
 def index(request):
-    return render(request, 'user/index.html', {'title': 'index'})
+    notes = Note.objects.all()
+    return render(request, 'user/index.html', {
+        'title': 'index',
+        'notes': notes
+    })
 
 
 def register(request):
@@ -66,3 +70,13 @@ def Login(request):
             messages.info(request, f'account done not exit plz sign in')
     form = AuthenticationForm()
     return render(request, 'user/login.html', {'form': form, 'title': 'log in'})
+
+
+def save_note(request):
+    if request.method == "POST":
+        form = Note(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = Note()
+    return render(request, 'user/note.html', {'form': form, 'title': 'register here'})
