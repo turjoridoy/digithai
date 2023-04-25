@@ -23,7 +23,6 @@ class NoteViewSet(ModelViewSet):
 def index(request):
     notes_q = Note.objects.all()
     user_id = request.user.id
-    print(user_id)
     notes = notes_q.filter(created_by=user_id)
     return render(request, 'user/index.html', {
         'title': 'index',
@@ -101,3 +100,12 @@ def note_update(request, id):
         form = NoteForm(instance=note)
 
     return render(request, 'user/edit_note.html', {'form':form, 'title': 'note edit here'})
+
+
+def note_details(request, id):
+    note = Note.objects.get(id=id)
+
+    return render(request, 'user/detail_note.html', {
+        'title': 'details',
+        'notes': note
+    })

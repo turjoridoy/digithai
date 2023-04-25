@@ -32,41 +32,6 @@
     <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
 
 
-    <!-- message here -->
-
-    {% if messages %}
-    {% for message in messages %}
-
-    <script>
-        alert("{{ message }}");
-
-    </script>
-
-    {% endfor %}
-    {% endif %}
-
-    <!--_______________________________________________-->
-    <script>
-        function myFunction() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("myTable");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("th")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-    </script>
-
 </head>
 
 <body class="container-fluid">
@@ -111,37 +76,13 @@
 <div class="row">
     {% block start %}
     {% if user.is_authenticated %}
-    <center><h1 class="title">Welcome back {{user.username}}!</h1></center>
-    <div class="table">
-        <span>Your all notes:</span>
-
-        <a href="{% url 'create_note' %}">
-            <button class="btn btn-success pull-right">Create Note</button>
-        </a>
+    <div style="margin-left: 30px">
         <br>
-        <br>
-        <br>
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
-
-        <table id="myTable">
-
-            <thead>
-            <td>Title</td>
-            <td>Created Date</td>
-            <td>Content</td>
-            <td class="edit_button" colspan="2">Action</td>
-            </thead>
-            {% for note in notes %}
-            <tr>
-                <th><a href="{% url 'note_detail' note.id %}">{{note.title}}</a></th>
-                <th>{{note.created_date}}</th>
-                <th>{{note.content|safe}}</th>
-                <th class="edit_button"><a href="{% url 'edit' note.id %}">Edit</a></th>
-                <th class="delete_button"><a href="/delete/{{ note.id }}/">Delete</a></th>
-            </tr>
-            {%endfor%}
-
-        </table>
+        <a href="/">Go Back</a>
+        <h1 class="title">Note Details</h1>
+        <h2>Title: {{notes.title}}!</h2>
+        <h6>Created Date: {{notes.created_date}}</h6>
+        <h2>Content: {{notes.content}}</h2>
     </div>
 
     {% else %}

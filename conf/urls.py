@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path, include
 from notes import views as notes_view
 from django.contrib.auth import views as auth
-from notes.views import delete_note, note_update
+from notes.views import delete_note, note_update, note_details
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,5 +14,6 @@ urlpatterns = [
     path('register/', notes_view.register, name='register'),
     path('create_note/', notes_view.create_note, name='create_note'),
     path('delete/<str:drug_id>/', delete_note),
-    path('edit/<int:id>/change/', note_update,name='edit')
+    path('edit/<int:id>/change/', note_update, name='edit'),
+    path('note_details/<int:id>/', note_details, name='note_detail')
 ]
