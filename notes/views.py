@@ -1,11 +1,4 @@
-from django.contrib.auth import authenticate
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
 
-# Create your views here.
-from django.template import loader
-from django.urls import reverse
-from django.utils import timezone
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 
@@ -14,13 +7,11 @@ from notes.serializer import NoteSerializer
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegisterForm
-from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
-from django.template.loader import get_template
+from django.core.exceptions import SuspiciousOperation
 
 
 class NoteViewSet(ModelViewSet):
@@ -78,11 +69,13 @@ def Login(request):
 
 def notes(request):
     if request.session.get('user'):
-        print(request.session.get('user'))
-        user = Note.objects.get(id=int(request.session.get('user')))
+        user_id = request.session.get('user')
+        if user_id is None:
+            raise SuspiciousOperation("client_id is mandatory in query params")
+        Note.objects.get(id = int(user_id))
 
         context = {
-            'user': user,
+            'user': user_id,
             'status': 1,
         }
         return render(request, 'note.html', context)
