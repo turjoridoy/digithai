@@ -1,0 +1,45 @@
+
+### Django ###
+*.log
+*.pot
+*.pyc
+.idea/
+*.xml
+
+=======
+__pycache__/
+db.sqlite3
+db.sqlite3-journal
+media
+
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# pyenv
+.python-version
+
+
+
+/venv
+.vscode/
+/venv/
+/env/
