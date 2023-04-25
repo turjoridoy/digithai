@@ -9,9 +9,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegisterForm, CreateNoteForm, NoteForm
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
-from django.core.exceptions import SuspiciousOperation
 
 
 class NoteViewSet(ModelViewSet):
