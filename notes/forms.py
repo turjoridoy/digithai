@@ -18,3 +18,9 @@ class CreateNoteForm(ModelForm):
     class Meta:
         model = Note
         fields = ['title',  'content']
+
+
+class NoteForm(ModelForm):
+    class Meta:
+        model = Note
+        fields =['title',  'content']

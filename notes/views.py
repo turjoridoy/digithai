@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegisterForm, CreateNoteForm
+from .forms import UserRegisterForm, CreateNoteForm, NoteForm
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.core.exceptions import SuspiciousOperation
@@ -63,12 +63,6 @@ def Login(request):
     return render(request, 'user/login.html', {'form': form, 'title': 'log in'})
 
 
-def deleteNote(request, drug_id):
-    d = Note.objects.get(id=drug_id)
-    d.delete()
-    return redirect('/')
-
-
 def create_note(request):
 
     if request.method == 'POST':
@@ -84,3 +78,26 @@ def create_note(request):
         noteform = CreateNoteForm()
 
     return render(request, 'user/create_note.html', {'noteform': noteform, 'title': 'note create here'})
+
+
+def delete_note(request, drug_id):
+    d = Note.objects.get(id=drug_id)
+    d.delete()
+    return redirect('/')
+
+
+def note_update(request, id):
+    note = Note.objects.get(id=id)
+
+    if request.method == 'POST':
+        form = NoteForm(request.POST, instance=note)
+        if form.is_valid():
+            # update the existing `Band` in the database
+            form.save()
+            # redirect to the detail page of the `Band` we just updated
+            messages.success(request, f'Your note edited successfully!')
+            return redirect('index')
+    else:
+        form = NoteForm(instance=note)
+
+    return render(request, 'user/edit_note.html', {'form':form, 'title': 'note edit here'})
