@@ -1,4 +1,4 @@
-
+from django.http import HttpResponse
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 
@@ -34,16 +34,9 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
 
-            htmly = get_template('user/email.html')
             d = {'username': username}
-            subject, from_email, to = 'welcome', 'your_email@gmail.com', email
-            html_content = htmly.render(d)
-            msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
-            ##################################################################
+
             messages.success(request, f'Your account has been created ! You are now able to log in')
             return redirect('login')
     else:
