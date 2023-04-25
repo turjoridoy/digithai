@@ -1,7 +1,11 @@
 from django.contrib.auth import authenticate
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
+from django.template import loader
+from django.urls import reverse
+from django.utils import timezone
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 
@@ -16,7 +20,7 @@ from .forms import UserRegisterForm
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
-from django.template import Context
+from django.template.loader import get_template
 
 
 class NoteViewSet(ModelViewSet):
@@ -72,11 +76,29 @@ def Login(request):
     return render(request, 'user/login.html', {'form': form, 'title': 'log in'})
 
 
-def save_note(request):
-    if request.method == "POST":
-        form = Note(request.POST)
-        if form.is_valid():
-            form.save()
+def notes(request):
+    if request.session.get('user'):
+        print(request.session.get('user'))
+        user = Note.objects.get(id=int(request.session.get('user')))
+
+        context = {
+            'user': user,
+            'status': 1,
+        }
+        return render(request, 'note.html', context)
+
     else:
-        form = Note()
-    return render(request, 'user/note.html', {'form': form, 'title': 'register here'})
+        context = {
+        }
+        return render(request, 'login.html', context)
+
+
+#
+# def save_note(request):
+#     if request.method == "POST":
+#         form = Note(request.POST)
+#         if form.is_valid():
+#             form.save()
+#     else:
+#         form = Note()
+#     return render(request, 'user/note.html', {'form': form, 'title': 'register here'})

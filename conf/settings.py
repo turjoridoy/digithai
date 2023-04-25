@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-mgmx+4ajl)v^y3%ms)3&vdtp9@oz8l(+h$qjbs@ouf9u=c@po8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'notes',
+    'rest_framework',
     'crispy_forms'
 ]
 
@@ -61,7 +62,7 @@ ROOT_URLCONF = 'conf.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'notes/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,7 +127,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path. join(BASE_DIR, 'static')
+STATIC_ROOT = os.path. join(BASE_DIR, 'static/')
 
 
 MEDIA_ROOT = os.path. join(BASE_DIR, 'media')
