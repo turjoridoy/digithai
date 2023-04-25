@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, CreateNoteForm
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.core.exceptions import SuspiciousOperation
@@ -21,7 +21,10 @@ class NoteViewSet(ModelViewSet):
 
 
 def index(request):
-    notes = Note.objects.all()
+    notes_q = Note.objects.all()
+    user_id = request.user.id
+    print(user_id)
+    notes = notes_q.filter(created_by=user_id)
     return render(request, 'user/index.html', {
         'title': 'index',
         'notes': notes
@@ -60,23 +63,31 @@ def Login(request):
     return render(request, 'user/login.html', {'form': form, 'title': 'log in'})
 
 
+def deleteNote(request, drug_id):
+    d = Note.objects.get(id=drug_id)
+    d.delete()
+    return redirect('/')
+
+
 def notes(request):
-    if request.session.get('user'):
-        user_id = request.session.get('user')
-        if user_id is None:
-            raise SuspiciousOperation("client_id is mandatory in query params")
-        Note.objects.get(id = int(user_id))
 
-        context = {
-            'user': user_id,
-            'status': 1,
-        }
-        return render(request, 'note.html', context)
+    if request.method == 'POST':
+        noteform = CreateNoteForm(request.POST)
+        noteform.instance.created_by = request.user
+        if noteform.is_valid():
 
+            noteform.save()
+
+            messages.success(request, f'Your note saved successfully!')
+            return redirect('index')
     else:
-        context = {
-        }
-        return render(request, 'login.html', context)
+        noteform = CreateNoteForm()
+
+    return render(request, 'user/create_note.html', {'noteform': noteform, 'title': 'note create here'})
+#
+#
+# def notes(request):
+#     return render(request, 'user/create_note.html',)
 
 
 #
@@ -87,4 +98,4 @@ def notes(request):
 #             form.save()
 #     else:
 #         form = Note()
-#     return render(request, 'user/note.html', {'form': form, 'title': 'register here'})
+#     return render(request, 'user/create_note.html', {'form': form, 'title': 'register here'})

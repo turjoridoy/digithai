@@ -1,0 +1,18 @@
+{% extends "user/index.html" %}
+{% load crispy_forms_tags %}
+{% block start %}
+
+<div class="content-section col-md-8 col-md-offset-2">
+  <form method="POST" style="border: 1px solid black; margin: 4%; padding:10%; border-radius:1%;">
+    {% csrf_token %}
+    <h1>Create Note</h1>
+    <fieldset class="form-group">
+      {{ noteform|crispy}}
+    </fieldset>
+    <center>
+      <button  type="submit"><span class="glyphicon glyphicon-check"></span> Save Note</button>
+    </center>
+    <br />
+  </form>
+</div>
+{% endblock start %}

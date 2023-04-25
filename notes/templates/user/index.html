@@ -115,7 +115,7 @@
     <div class="table">
         <span>Your all notes:</span>
 
-        <a href="{% url 'note' %}">
+        <a href="{% url 'notes' %}">
             <button class="btn btn-success pull-right">Create Note</button>
         </a>
         <br>
@@ -137,7 +137,7 @@
                 <th>{{note.created_date}}</th>
                 <th>{{note.content|safe}}</th>
                 <th class="edit_button"><a>Edit</a></th>
-                <th class="delete_button"><a>Delete</a></th>
+                <th class="delete_button"><a href="/delete/{{ note.id }}/">Delete</a></th>
             </tr>
             {%endfor%}
 

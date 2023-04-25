@@ -12,7 +12,7 @@ class Note(models.Model):
         on_delete=models.CASCADE,
     )
     created_date = models.DateTimeField(default=timezone.now)
-    published_date = models.DateTimeField(blank=True, null=True)
+    published_date = models.DateTimeField(default=timezone.now, blank=True, null=True)
 
     def publish(self):
         self.published_date = timezone.now()
