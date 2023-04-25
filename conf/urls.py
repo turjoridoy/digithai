@@ -12,6 +12,6 @@ urlpatterns = [
     path('login/', notes_view.Login, name='login'),
     path('logout/', auth.LogoutView.as_view(template_name='user/index.html'), name='logout'),
     path('register/', notes_view.register, name='register'),
-    path('create_note/', notes_view.notes, name='notes'),
+    path('create_note/', notes_view.create_note, name='notes'),
     path('delete/<str:drug_id>/', deleteNote)
 ]

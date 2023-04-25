@@ -69,7 +69,7 @@ def deleteNote(request, drug_id):
     return redirect('/')
 
 
-def notes(request):
+def create_note(request):
 
     if request.method == 'POST':
         noteform = CreateNoteForm(request.POST)
@@ -84,18 +84,3 @@ def notes(request):
         noteform = CreateNoteForm()
 
     return render(request, 'user/create_note.html', {'noteform': noteform, 'title': 'note create here'})
-#
-#
-# def notes(request):
-#     return render(request, 'user/create_note.html',)
-
-
-#
-# def save_note(request):
-#     if request.method == "POST":
-#         form = Note(request.POST)
-#         if form.is_valid():
-#             form.save()
-#     else:
-#         form = Note()
-#     return render(request, 'user/create_note.html', {'form': form, 'title': 'register here'})
